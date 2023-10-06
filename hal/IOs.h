@@ -78,12 +78,15 @@ typedef enum { // Give bits explicitly, because IDE relies on it.
 //			GPIO_OSPEED_50MHZ   = 0x02, /*!< Fast speed */
 //			GPIO_OSPEED_MAX     = 0x03  /*!< GPIO very high output speed, max speed more than 50MHz */
 //		} GPIOSpeed_TypeDef;
-	typedef uint32_t GPIOMode_TypeDef;
+ 	typedef uint32_t GPIOMode_TypeDef;
 	typedef uint32_t GPIOOType_TypeDef;
 	typedef uint32_t GPIOPuPd_TypeDef;
 	typedef uint32_t GPIOSpeed_TypeDef;
-
-
+#else
+ 	typedef uint32_t GPIOMode_TypeDef;
+	typedef uint32_t GPIOOType_TypeDef;
+	typedef uint32_t GPIOPuPd_TypeDef;
+	typedef uint32_t GPIOSpeed_TypeDef;
 #endif
 
 

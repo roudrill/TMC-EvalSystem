@@ -4,7 +4,7 @@ EvalBoardDriverTypeDef TMCDriver =
 {
 	.config	=
 	{
-		.state           = CONFIG_READY,
+		.state           = TMC_CONFIG_READY,
 		.configIndex     = 0,
 		.shadowRegister  = { 0 }
 	}
@@ -13,7 +13,7 @@ EvalBoardDriverTypeDef TMCDriver =
 void tmcdriver_init()
 {
 	Evalboards.ch2.config               = &TMCDriver.config;
-	Evalboards.ch2.config->state        = CONFIG_READY;
+	Evalboards.ch2.config->state        = TMC_CONFIG_READY;
 	Evalboards.ch2.config->configIndex  = 0;
 
 	// A value of 0 indicates the Evalboard not connecting the VM line,

@@ -324,7 +324,7 @@ void TMC6300_init(void)
 
 	HAL.IOs->config->toInput(Pins.DIAG);
 
-	Evalboards.ch2.config->state        = CONFIG_READY;
+	Evalboards.ch2.config->state        = TMC_CONFIG_READY;
 	Evalboards.ch2.config->reset        = reset;
 
 	Evalboards.ch2.GAP                  = GAP;

@@ -272,7 +272,7 @@ void TMC8461_init_ch1(void)
 	// connect evalboard functions
 	Evalboards.ch1.config->reset        = reset;
 	Evalboards.ch1.config->restore      = restore;
-	Evalboards.ch1.config->state        = CONFIG_READY;
+	Evalboards.ch1.config->state        = TMC_CONFIG_READY;
 	Evalboards.ch1.config->configIndex  = 0;
 	Evalboards.ch1.writeRegister        = register_write;
 	Evalboards.ch1.readRegister         = register_read;
@@ -303,7 +303,7 @@ void TMC8461_init_ch2(void)
 
 	Evalboards.ch2.config->reset        = reset;
 	Evalboards.ch2.config->restore      = restore;
-	Evalboards.ch2.config->state        = CONFIG_READY; // Config instantly ready since we dont write anything for now
+	Evalboards.ch2.config->state        = TMC_CONFIG_READY; // Config instantly ready since we dont write anything for now
 	Evalboards.ch2.config->configIndex  = 0;
 	Evalboards.ch2.writeRegister        = memory_write;
 	Evalboards.ch2.readRegister         = memory_read;

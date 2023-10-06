@@ -1349,7 +1349,7 @@ void TMC5240_init(void)
 
 	Evalboards.ch1.config->reset        = reset;
 	Evalboards.ch1.config->restore      = restore;
-	Evalboards.ch1.config->state        = CONFIG_RESET;
+	Evalboards.ch1.config->state        = TMC_CONFIG_RESET;
 
 	tmc5240_init(&TMC5240, 0, Evalboards.ch1.config, tmc5240_defaultRegisterResetState);
 

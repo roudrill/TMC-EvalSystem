@@ -109,7 +109,7 @@ extern void TMC5271_init();
 extern void TMC5272_init();
 extern void TMC6100_init();
 extern void TMC6100_BOB_init();
-extern void TMC6140_init();
+//--> extern void TMC6140_init();
 extern void TMC6200_init();
 extern void TMC6300_init();
 extern void TMC7300_init();
@@ -171,7 +171,7 @@ static const init_assignment init_ch2[] =
 	{ .id = ID_TMC2226,     .init = TMC2226_init     },
 	{ .id = ID_TMC2300,     .init = TMC2300_init     },
 	{ .id = ID_TMC6300,     .init = TMC6300_init     },
-	{ .id = ID_TMC6140,     .init = TMC6140_init     },
+	//--> { .id = ID_TMC6140,     .init = TMC6140_init     },
 	{ .id = ID_TMC8100,     .init = TMC8100_init     },
 };
 

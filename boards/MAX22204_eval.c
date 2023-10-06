@@ -21,6 +21,9 @@
 #elif defined(LandungsbrueckeV3)
 #define MAX22204_VREF_TIMER	TIMER_CHANNEL_4
 #define MAX22204_RAMDEBUG_TIMER TIMER_CHANNEL_2
+#else
+#define MAX22204_VREF_TIMER	TIMER_CHANNEL_4
+#define MAX22204_RAMDEBUG_TIMER TIMER_CHANNEL_2
 #endif
 
 static uint32_t rotate(uint8_t motor, int32_t velocity);
@@ -459,7 +462,7 @@ void MAX22204_init(void)
  	Evalboards.ch2.config->callback     = NULL;
  	Evalboards.ch2.config->channel      = 0;
  	Evalboards.ch2.config->configIndex  = 0;
- 	Evalboards.ch2.config->state        = CONFIG_READY;
+ 	Evalboards.ch2.config->state        = TMC_CONFIG_READY;
  	Evalboards.ch2.config->reset        = reset;
  	Evalboards.ch2.config->restore      = restore;
 

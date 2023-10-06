@@ -7,6 +7,8 @@
 #define TIMER_MAX 8000
 #elif defined(LandungsbrueckeV3)
 #define TIMER_MAX 65535
+#else
+#define TIMER_MAX 65535
 #endif
 
 typedef enum {

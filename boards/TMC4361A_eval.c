@@ -874,7 +874,7 @@ static void configCallback(TMC4361ATypeDef *tmc4361A, ConfigState state)
 	tmc4361A_writeInt(tmc4361A, TMC4361A_SPIOUT_CONF, value);
 
 	// Reset/Restore driver
-	if(state == CONFIG_RESET)
+	if(state == TMC_CONFIG_RESET)
 	{
 		tmc4361A_writeInt(tmc4361A, TMC4361A_CURRENT_CONF, 0x00000003);
 		tmc4361A_writeInt(tmc4361A, TMC4361A_SCALE_VALUES, 0x00000000);
@@ -922,7 +922,7 @@ void TMC4361A_init(void)
 	TMC4361A_SPIChannel = &HAL.SPI->ch1;
 	TMC4361A_SPIChannel->CSN = &HAL.IOs->pins->SPI1_CSN;
 
-	Evalboards.ch1.config->state        = CONFIG_RESET;
+	Evalboards.ch1.config->state        = TMC_CONFIG_RESET;
 	Evalboards.ch1.config->configIndex  = 0;
 	Evalboards.ch1.config->reset        = reset;
 	Evalboards.ch1.config->restore      = restore;

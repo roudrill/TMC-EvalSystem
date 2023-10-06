@@ -308,7 +308,7 @@ void TMC2224_init(void)
 
 	Evalboards.ch2.config->reset        = reset;
 	Evalboards.ch2.config->restore      = restore;
-	Evalboards.ch2.config->state        = CONFIG_RESET;
+	Evalboards.ch2.config->state        = TMC_CONFIG_RESET;
 	Evalboards.ch2.config->configIndex  = 0;
 
 	Evalboards.ch2.rotate               = rotate;

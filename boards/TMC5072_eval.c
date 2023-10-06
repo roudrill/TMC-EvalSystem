@@ -734,7 +734,7 @@ static void enableDriver(DriverState state)
 
 static void configCallback(TMC5072TypeDef *tmc5072, ConfigState state)
 {
-	if(state == CONFIG_RESET)
+	if(state == TMC_CONFIG_RESET)
 	{	// Change hardware-preset registers here
 		for(uint8_t motor = 0; motor < TMC5072_MOTORS; motor++)
 			tmc5072_writeInt(tmc5072, TMC5072_PWMCONF(motor), 0x000504C8);
@@ -776,7 +776,7 @@ void TMC5072_init(void)
 
 	Evalboards.ch1.config->reset        = reset;
 	Evalboards.ch1.config->restore      = restore;
-	Evalboards.ch1.config->state        = CONFIG_RESET;
+	Evalboards.ch1.config->state        = TMC_CONFIG_RESET;
 	Evalboards.ch1.config->configIndex  = 0;
 
 	Evalboards.ch1.rotate               = rotate;

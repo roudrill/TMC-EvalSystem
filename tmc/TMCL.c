@@ -469,10 +469,14 @@ void ExecuteActualCommand()
 void tmcl_init()
 {
 	ActualCommand.Error  = TMCL_RX_ERROR_NODATA;
+	//--> interfaces[0]        = *HAL.USB;
+	//--> interfaces[1]        = *HAL.RS232;
+	//--> interfaces[2]        = *HAL.WLAN;
+	//--> numberOfInterfaces   = 3;
+
 	interfaces[0]        = *HAL.USB;
-	interfaces[1]        = *HAL.RS232;
-	interfaces[2]        = *HAL.WLAN;
-	numberOfInterfaces   = 3;
+	numberOfInterfaces   = 1;
+
 }
 
 void tmcl_process()
@@ -590,7 +594,7 @@ void tmcl_boot()
 
 	HAL.USB->deInit();
 
-	wait(500);
+	//--> wait(500);
 
 	HAL.Timer->deInit();
 	HAL.RS232->deInit();
@@ -600,7 +604,7 @@ void tmcl_boot()
 	// todo: CHECK 2: Muss api_deInit hier dazu? (ED)
 	StepDir_deInit();
 
-	IDDetection_deInit();
+	//--> IDDetection_deInit();
 
 	HAL.NVIC_DeInit();
 
@@ -768,7 +772,7 @@ static void boardAssignment(void)
 	switch(ActualCommand.Type)
 	{
 	case 0:  // auto detect and assign
-		checkIDs();
+		// --> checkIDs();
 		return;
 		break;
 	case 1:  // id for channel 2 not changed, reset maybe
@@ -876,6 +880,7 @@ static void setDriversEnable()
 
 static void checkIDs(void)
 {
+	/*
 	IdAssignmentTypeDef ids = { 0 };
 
 	if(IDDetection_detect(&ids))
@@ -894,6 +899,7 @@ static void checkIDs(void)
 	{
 		ActualReply.Status = REPLY_DELAYED;
 	}
+	*/
 }
 
 static void SoftwareReset(void)
@@ -940,8 +946,8 @@ static void GetVersion(void)
 	//how were the boards detected?	// todo CHECK 2: Doesn't fit into GetVersion. Move somewhere else? Or maybe change GetVersion to GetBoardInfo or something (LH)
 	else if(ActualCommand.Type == VERSION_BOARD_DETECT_SRC)
 	{
-		ActualReply.Value.Byte[0] = IdState.ch1.detectedBy;
-		ActualReply.Value.Byte[1] = IdState.ch2.detectedBy;
+		//--> ActualReply.Value.Byte[0] = IdState.ch1.detectedBy;
+		//--> ActualReply.Value.Byte[1] = IdState.ch2.detectedBy;
 	}
 	else if(ActualCommand.Type == VERSION_BUILD) {
 		ActualReply.Value.UInt32 = BUILD_VERSION;

@@ -815,7 +815,7 @@ void TMC6140_init(void)
 	HAL.IOs->config->toInput(Pins.HALL_V);
 	HAL.IOs->config->toInput(Pins.HALL_W);
 
-	Evalboards.ch2.config->state        = CONFIG_READY;
+	Evalboards.ch2.config->state        = TMC_CONFIG_READY;
 	Evalboards.ch2.config->reset        = reset;
 	Evalboards.ch2.config->restore      = restore;
 

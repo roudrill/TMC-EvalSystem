@@ -385,7 +385,7 @@ static void configCallback(TMC7300TypeDef *tmc7300, ConfigState state)
 {
 	UNUSED(tmc7300);
 
-	if (state == CONFIG_RESET)
+	if (state == TMC_CONFIG_RESET)
 	{
 		// Configuration reset completed
 		// Change hardware preset registers here
@@ -429,7 +429,7 @@ void TMC7300_init(void)
 
 	Evalboards.ch2.config->reset        = reset;
 	Evalboards.ch2.config->restore      = restore;
-	Evalboards.ch2.config->state        = CONFIG_RESET;
+	Evalboards.ch2.config->state        = TMC_CONFIG_RESET;
 	Evalboards.ch2.config->configIndex  = 0;
 
 	Evalboards.ch2.rotate               = rotate;

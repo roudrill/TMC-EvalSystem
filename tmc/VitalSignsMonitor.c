@@ -12,6 +12,8 @@
 #define VM_FACTOR               713  // ADC reaches limit at VM = 71.3V => VM Factor (in 100mV) = 713
 #elif defined(LandungsbrueckeV3)
 #define VM_FACTOR               744
+#else //  defined(Zephyr)
+#define VM_FACTOR               744
 #endif
 
 
@@ -36,6 +38,8 @@ VitalSignsMonitorTypeDef VitalSignsMonitor =
 #if defined(Landungsbruecke) || defined(LandungsbrueckeSmall)
 	#define ADC_VM_RES 65535
 #elif defined(LandungsbrueckeV3)
+	#define ADC_VM_RES 4095
+#else
 	#define ADC_VM_RES 4095
 #endif
 
@@ -153,9 +157,9 @@ void vitalsignsmonitor_checkVitalSigns()
 
 	if(VitalSignsMonitor.busy)
 		errors |= VSM_BUSY;
-	if(Evalboards.ch1.config->state != CONFIG_READY)
+	if(Evalboards.ch1.config->state != TMC_CONFIG_READY)
 		errors |= VSM_BUSY | VSM_BUSY_CH1;
-	if(Evalboards.ch2.config->state != CONFIG_READY)
+	if(Evalboards.ch2.config->state != TMC_CONFIG_READY)
 		errors |= VSM_BUSY | VSM_BUSY_CH2;
 
 	if(VitalSignsMonitor.brownOut)

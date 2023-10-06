@@ -8,10 +8,11 @@
  * this choice will therefore not influence the build process.
  */
 #if !defined(Landungsbruecke) && !defined(LandungsbrueckeV3) && !defined(LandungsbrueckeSmall)
-#warning "No Board selected by makefile, defining one for debug purposes"
+//--> #warning "No Board selected by makefile, defining one for debug purposes"
 //#define Landungsbruecke
-#define LandungsbrueckeV3
+//#define LandungsbrueckeV3
 //#define LandungsbrueckeSmall
+//#define Zephyr
 #endif
 
 	#include "tmc/helpers/API_Header.h"
@@ -36,8 +37,9 @@
         #include "hal/Landungsbruecke/freescale/nvic.h"
         #define CPU_LITTLE_ENDIAN
         #define __MK_xxx_H__
-	#else
-	#error "No Board selected"
+	#elif defined(Zephyr)
+		#define MODULE_ID "0020" // Zephyr	
+        #include <MK20D10.h>
 	#endif
 
 #endif /* _DERIVATIVE_H_ */

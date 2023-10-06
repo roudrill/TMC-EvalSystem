@@ -175,8 +175,10 @@ void TIMER_INTERRUPT()
 		bool isStallSignalHigh = (GPIO_PDIR_REG(currCh->stallGuardPin->GPIOBase) & currCh->stallGuardPin->bitWeight) != 0;
 #elif defined(LandungsbrueckeV3)
 		bool isStallSignalHigh = HAL.IOs->config->isHigh(currCh->stallGuardPin);
+#elif defined(Zephyr)
+		bool isStallSignalHigh = HAL.IOs->config->isHigh(currCh->stallGuardPin);
 #endif
-		checkStallguard(currCh, isStallSignalHigh);
+		//-->  checkStallguard(currCh, isStallSignalHigh);
 
 		// Compute ramp
 		int32_t dx = tmc_ramp_linear_compute(&currCh->ramp);
@@ -186,10 +188,10 @@ void TIMER_INTERRUPT()
 			goto skipStep;
 
 		// Direction
-		*((dx > 0) ? currCh->dirPin->resetBitRegister : currCh->dirPin->setBitRegister) = currCh->dirPin->bitWeight;
+		//--> *((dx > 0) ? currCh->dirPin->resetBitRegister : currCh->dirPin->setBitRegister) = currCh->dirPin->bitWeight;
 
 		// Set step output (rising edge of step pulse)
-		*currCh->stepPin->setBitRegister = currCh->stepPin->bitWeight;
+		//--> *currCh->stepPin->setBitRegister = currCh->stepPin->bitWeight;
 
 skipStep:
 		// Synchronised Acceleration update

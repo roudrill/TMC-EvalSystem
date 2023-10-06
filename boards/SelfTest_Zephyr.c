@@ -60,14 +60,17 @@ void SelfTest_init()
 
 static void deInit()
 {
+	/*
 	IDDetection_init();
 	VitalSignsMonitor.debugMode = 0;
 	IOMap.init();
 	HAL.LEDs->error.off();
+	*/
 }
 
 static uint32_t selfTest(uint8_t type, uint8_t motor, int32_t *value)  // Aufrufen des Selftest durch Command 143 , Type 3 und Value 0xFF00FF in dezimal => 16711935
 {                                                              // LEDs blinken gleichmäßig
+	/*
 	uint32_t i;
 	uint32_t result = 0xFFFFFFFF;
 	uint32_t errors = TMC_ERROR_NONE;
@@ -298,10 +301,13 @@ static uint32_t selfTest(uint8_t type, uint8_t motor, int32_t *value)  // Aufruf
 	}
 
 	return errors;
+	*/
+	return 1;
 }
 
 static void periodicJob(uint32_t tick)
 {
+	/*
 	static uint32_t lastTick = 0;
 
 	if((tick - lastTick) >= 500)
@@ -309,4 +315,5 @@ static void periodicJob(uint32_t tick)
 		HAL.LEDs->error.toggle();
 		lastTick = tick;
 	}
+	*/
 }

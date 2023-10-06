@@ -930,7 +930,7 @@ static uint8_t restore()
 
 static void configCallback(TMC5130TypeDef *tmc5130, ConfigState completedState)
 {
-	if(completedState == CONFIG_RESET)
+	if(completedState == TMC_CONFIG_RESET)
 	{
 		// Configuration reset completed
 		// Change hardware preset registers here
@@ -990,7 +990,7 @@ void TMC5130_init(void)
 
 	Evalboards.ch1.config->reset        = reset;
 	Evalboards.ch1.config->restore      = restore;
-	Evalboards.ch1.config->state        = CONFIG_RESET;
+	Evalboards.ch1.config->state        = TMC_CONFIG_RESET;
 	Evalboards.ch1.config->configIndex  = 0;
 
 	Evalboards.ch1.rotate               = rotate;

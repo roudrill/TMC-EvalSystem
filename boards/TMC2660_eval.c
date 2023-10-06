@@ -785,7 +785,7 @@ void TMC2660_init(void)
 
 	Evalboards.ch2.config->restore      = restore;
 	Evalboards.ch2.config->reset        = reset;
-	Evalboards.ch2.config->state        = CONFIG_READY; // Not used, leave this as CONFIG_READY to indicate chip not being busy
+	Evalboards.ch2.config->state        = TMC_CONFIG_READY; // Not used, leave this as TMC_CONFIG_READY to indicate chip not being busy
 	Evalboards.ch2.config->configIndex  = 0;
 
 	Evalboards.ch2.rotate               = rotate;

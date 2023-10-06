@@ -1,4 +1,3 @@
-
 #include "boards/Board.h"
 #include "hal/derivative.h"
 #include "hal/HAL.h"
@@ -8,7 +7,9 @@
 #include "tmc/BoardAssignment.h"
 #include "tmc/RAMDebug.h"
 
-const char *VersionString = MODULE_ID "V309"; // module id and version of the firmware shown in the TMCL-IDE
+//--> const char *VersionString = MODULE_ID "V309"; // module id and version of the firmware shown in the TMCL-IDE
+const char *VersionString = "V309"; // module id and version of the firmware shown in the TMCL-IDE
+
 
 EvalboardsTypeDef Evalboards;
 
@@ -50,6 +51,7 @@ EvalboardsTypeDef Evalboards;
 /* This will force the entrance into bootloader mode and allow to replace bad firmware. */
 void shallForceBoot()
 {
+	/*
 	// toggle each pin and see if you can read the state on the other
 	// leave if not, because this means that the pins are not tied together
 	HAL.IOs->config->toOutput(&HAL.IOs->pins->ID_CLK);
@@ -75,6 +77,7 @@ void shallForceBoot()
 		return;
 
 	// not returned, this means pins are tied together
+	*/
 	tmcl_boot();
 }
 
@@ -87,7 +90,7 @@ static void init()
 #endif
 
 	HAL.init();                  // Initialize Hardware Abstraction Layer
-	IDDetection_init();          // Initialize board detection
+	//--> IDDetection_init();          // Initialize board detection
 	tmcl_init();                 // Initialize TMCL communication
 
 	tmcdriver_init();            // Initialize dummy driver board --> preset EvalBoards.ch2
@@ -103,8 +106,8 @@ static void init()
 	HAL.IOs->config->setHigh(&HAL.IOs->pins->DIO0);
 
 	IdAssignmentTypeDef ids = { 0 };
-	IDDetection_initialScan(&ids);  // start initial board detection
-	IDDetection_initialScan(&ids);  // start second time, first time not 100% reliable, not sure why - too fast after startup?
+	//--> IDDetection_initialScan(&ids);  // start initial board detection
+	//--> IDDetection_initialScan(&ids);  // start second time, first time not 100% reliable, not sure why - too fast after startup?
 	if(!ids.ch1.id && !ids.ch2.id)
 	{
 		shallForceBoot();           // only checking to force jump into bootloader if there are no boards attached
@@ -114,6 +117,7 @@ static void init()
 
 	}
 
+/*
 	if (ID_CH1_DEFAULT && (!ids.ch1.id || ID_CH1_OVERRIDE))
 	{
 		ids.ch1.id = ID_CH1_DEFAULT;
@@ -125,6 +129,7 @@ static void init()
 		ids.ch2.id = ID_CH2_DEFAULT;
 		ids.ch2.state = ID_STATE_DONE;
 	}
+*/
 
 	Board_assign(&ids);             // assign boards with detected id
 
@@ -140,6 +145,10 @@ int main(void)
 	// Main loop
 	while(1)
 	{
+		char test[1000];
+		//memset(test, 0xAA, 1000);
+		// HAL.USB->txN(test, 1000);
+
 		// Check all parameters and life signs and mark errors
 		vitalsignsmonitor_checkVitalSigns();
 
@@ -149,6 +158,9 @@ int main(void)
 		// Perodic jobs of Motion controller/Driver boards
 		Evalboards.ch1.periodicJob(systick_getTick());
 		Evalboards.ch2.periodicJob(systick_getTick());
+
+		//HAL.USB->rxN(test, 9);
+		//HAL.USB->txN(test, 9);
 
 		// Process TMCL communication
 		tmcl_process();

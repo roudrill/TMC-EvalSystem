@@ -1080,7 +1080,7 @@ void TMC5160_init(void)
 
 	Evalboards.ch1.config->reset        = reset;
 	Evalboards.ch1.config->restore      = restore;
-	Evalboards.ch1.config->state        = CONFIG_RESET;
+	Evalboards.ch1.config->state        = TMC_CONFIG_RESET;
 
 	tmc5160_init(&TMC5160, 0, Evalboards.ch1.config, tmc5160_defaultRegisterResetState);
 

@@ -825,7 +825,7 @@ static uint8_t restore()
 
 static void configCallback(TMC2160TypeDef *tmc2160, ConfigState state)
 {
-	if(state == CONFIG_RESET)
+	if(state == TMC_CONFIG_RESET)
 	{	// Change hardware-preset registers here
 		tmc2160_writeInt(tmc2160, TMC2160_PWMCONF, 0xC40C001E);
 		tmc2160_writeInt(tmc2160, TMC2160_DRV_CONF, 0x00080400);
@@ -894,7 +894,7 @@ void TMC2160_init(void)
 
 	Evalboards.ch2.config->reset        = reset;
 	Evalboards.ch2.config->restore      = restore;
-	Evalboards.ch2.config->state        = CONFIG_RESET;
+	Evalboards.ch2.config->state        = TMC_CONFIG_RESET;
 	Evalboards.ch2.config->configIndex  = 0;
 
 	Evalboards.ch2.rotate               = rotate;

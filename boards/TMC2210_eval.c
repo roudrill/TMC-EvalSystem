@@ -531,7 +531,7 @@ void TMC2210_init(void)
 	HAL.IOs->config->toInput(Pins.INDEX);
 
 
-	Evalboards.ch2.config->state = CONFIG_READY;
+	Evalboards.ch2.config->state = TMC_CONFIG_READY;
 
 	StepDir_init(STEPDIR_PRECISION);
 	StepDir_setPins(0, Pins.STEP, Pins.DIR, NULL);

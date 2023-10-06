@@ -4,7 +4,7 @@ EvalBoardMotionControllerTypeDef TMCMotionController =
 {
 	.config	=
 	{
-		.state           = CONFIG_READY,
+		.state           = TMC_CONFIG_READY,
 		.configIndex     = 0,
 		.shadowRegister  = { 0 }
 	}
@@ -13,7 +13,7 @@ EvalBoardMotionControllerTypeDef TMCMotionController =
 void tmcmotioncontroller_init()
 {
 	Evalboards.ch1.config               = &TMCMotionController.config;
-	Evalboards.ch1.config->state        = CONFIG_READY;
+	Evalboards.ch1.config->state        = TMC_CONFIG_READY;
 	Evalboards.ch1.config->configIndex  = 0;
 
 	// A value of 0 indicates the Evalboard not connecting the VM line,

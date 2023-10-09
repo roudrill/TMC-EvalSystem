@@ -99,6 +99,11 @@ void init()
     uart_irq_rx_enable(uart_dev);
 }
 
+uint8_t rx(uint8_t *ch)
+{
+	return 0;
+}
+
 uint8_t rxN(uint8_t *str, uint8_t number)
 {
 	uint8_t c;

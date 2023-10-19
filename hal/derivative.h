@@ -39,7 +39,6 @@
         #define __MK_xxx_H__
 	#elif defined(Zephyr)
 		#define MODULE_ID "0020" // Zephyr	
-        #include <MK20D10.h>
 	#endif
 
 #endif /* _DERIVATIVE_H_ */

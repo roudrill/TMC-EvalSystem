@@ -7,6 +7,7 @@ static void init();
 
 static IOPinTypeDef *_pins[] =
 {
+	&IOMap.DIO0
 	/*
 	&IOMap.ID_CLK,
 	&IOMap.ID_CH0,
@@ -131,23 +132,19 @@ IOPinMapTypeDef IOMap =
 			.GPIO_PuPd   = GPIO_PuPd_NOPULL          // GPIOPuPd_TypeDef GPIO_PuPd;
 		}
 	},
-
+	*/
 	.DIO0 =  // IOPinTypeDef DIO0
 	{
-		.setBitRegister      = &(GPIOA_PSOR),        // __IO uint16_t *setBitRegister;
-		.resetBitRegister    = &(GPIOA_PCOR),        // __IO uint16_t *resetBitRegister;
-		.portBase            = PORTA_BASE_PTR,       // GPIO_TypeDef *port;
-		.GPIOBase            = PTA_BASE_PTR,
-		.bitWeight           = GPIO_PDD_PIN_12,      // uint32_t pinBitWeight;
-		.bit                 = 12,                   // uint8_t pinBitWeight;
+		.bitWeight           = 0,      // uint32_t pinBitWeight;
+		.bit                 = 0,                   // uint8_t pinBitWeight;
 		.resetConfiguration  =
 		{
 			.GPIO_Mode   = GPIO_Mode_IN,             // GPIOMode_TypeDef GPIO_Mode;
 			.GPIO_OType  = GPIO_OType_PP,            // GPIOSpeed_TypeDef GPIO_Speed;
-			.GPIO_Speed  = GPIO_Speed_50MHz,         // GPIOOType_TypeDef GPIO_OType;
 			.GPIO_PuPd   = GPIO_PuPd_NOPULL          // GPIOPuPd_TypeDef GPIO_PuPd;
 		}
-	},
+	}
+	/*
 
 	.DIO1 =  // IOPinTypeDef DIO1
 	{

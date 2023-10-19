@@ -82,11 +82,26 @@ typedef enum { // Give bits explicitly, because IDE relies on it.
 	typedef uint32_t GPIOOType_TypeDef;
 	typedef uint32_t GPIOPuPd_TypeDef;
 	typedef uint32_t GPIOSpeed_TypeDef;
-#else
- 	typedef uint32_t GPIOMode_TypeDef;
-	typedef uint32_t GPIOOType_TypeDef;
-	typedef uint32_t GPIOPuPd_TypeDef;
-	typedef uint32_t GPIOSpeed_TypeDef;
+#elif defined (Zephyr)
+	typedef enum
+	{
+	  GPIO_Mode_AN   = 0x00,  /*!< GPIO Analog Mode, Pin disabled */
+	  GPIO_Mode_IN   = 0x01,  /*!< GPIO Input Mode */
+	  GPIO_Mode_OUT  = 0x02   /*!< GPIO Output Mode */
+	} GPIOMode_TypeDef;
+
+	typedef enum
+	{
+		GPIO_OType_PP = 0x00,
+		GPIO_OType_OD = 0x01
+	} GPIOOType_TypeDef;
+
+	typedef enum
+	{
+		GPIO_PuPd_NOPULL  = 0x00,
+		GPIO_PuPd_UP      = 0x01,
+		GPIO_PuPd_DOWN    = 0x02
+	} GPIOPuPd_TypeDef;
 #endif
 
 
@@ -107,9 +122,12 @@ typedef struct
 typedef struct
 {
 	GPIOMode_TypeDef   GPIO_Mode;
+#if !defined(Zephyr)
 	GPIOSpeed_TypeDef  GPIO_Speed;
+#endif
 	GPIOOType_TypeDef  GPIO_OType;
 	GPIOPuPd_TypeDef   GPIO_PuPd;
+
 } IOPinInitTypeDef;
 
 typedef struct
@@ -124,7 +142,7 @@ typedef struct
 		volatile uint32_t         *setBitRegister;
 		volatile uint32_t         *resetBitRegister;
 	#endif
-	uint32_t                      bitWeight;
+	uint32_t                    bitWeight;
 	unsigned char               bit;
 	IOPinInitTypeDef            configuration;
 	IOPinInitTypeDef            resetConfiguration;

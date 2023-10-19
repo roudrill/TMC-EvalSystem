@@ -54,23 +54,15 @@ static void init(void)
 	get_hwid();
 	*/
 
+	systick_init();
+	wait(100);
+
 	USB.init();
+	SPI.init();
 }
 
 static void __attribute((noreturn)) reset(uint8_t ResetPeripherals)
 {
-	/*
-	DisableInterrupts;
-
-	if(ResetPeripherals)
-		SCB_AIRCR = SCB_AIRCR_VECTKEY(0x5FA) | SCB_AIRCR_SYSRESETREQ_MASK;
-	else
-		SCB_AIRCR = SCB_AIRCR_VECTKEY(0x5FA) | SCB_AIRCR_VECTRESET_MASK;
-
-	// SYSRESETREQ does not happen instantly since peripheral reset timing is not specified.
-	// Trap execution here so nothing else happens until the reset completes.
-	while(1);
-	*/
 }
 
 static void NVIC_init(void)

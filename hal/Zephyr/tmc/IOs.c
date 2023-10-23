@@ -1,3 +1,7 @@
+#include <zephyr/kernel.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/gpio.h>
+
 #include "hal/HAL.h"
 #include "hal/IOs.h"
 
@@ -12,6 +16,10 @@ static void setPinLow(IOPinTypeDef *pin);
 static void setPinState(IOPinTypeDef *pin, IO_States state);
 static IO_States getPinState(IOPinTypeDef *pin);
 static uint8_t isPinHigh(IOPinTypeDef *pin);
+
+#define GPIO_NODE DT_ALIAS(led0)
+
+static const struct gpio_dt_spec gpio = GPIO_DT_SPEC_GET(GPIO_NODE, gpios);
 
 IOsTypeDef IOs =
 {
@@ -30,6 +38,13 @@ IOsTypeDef IOs =
 
 static void init()
 {
+	int ret;
+
+	if (!gpio_is_ready_dt(&gpio)) {
+        return 0;
+    }
+ 
+    ret = gpio_pin_configure_dt(&gpio, GPIO_OUTPUT_ACTIVE);
 }
 
 static void setPinConfiguration(IOPinTypeDef *pin)
@@ -66,6 +81,8 @@ static void setPinConfiguration(IOPinTypeDef *pin)
 	case GPIO_PuPd_DOWN:
 		break;
 	}
+
+
 }
 
 static void setPin2Output(IOPinTypeDef *pin)
@@ -141,30 +158,29 @@ static void setPinHigh(IOPinTypeDef *pin)
 	if(IS_DUMMY_PIN(pin))
 		return;
 
-	// TODO - Add set pin
 	pin->state = IOS_HIGH;
+	return gpio_pin_set_dt(&gpio, 0);
 }
 
 static void setPinLow(IOPinTypeDef *pin)
 {
-
 	if(IS_DUMMY_PIN(pin))
 		return;
 
-	// TODO - Add set pin
 	pin->state = IOS_LOW;
+	return gpio_pin_set_dt(&gpio, 1);
 
 }
 
 static uint8_t isPinHigh(IOPinTypeDef *pin) // Die Abfrage eines Pins funktioniert nur, wenn der Pin AF1 ist
 {
-
 	if(IS_DUMMY_PIN(pin))
 		return -1;
 
-	// TODO - Add get pin state
-
-	return 1;
+	if (pin->state)
+		return 1;
+	else
+		return 0;
 }
 
 static void copyPinConfiguration(IOPinInitTypeDef *from, IOPinTypeDef *to)

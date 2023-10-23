@@ -11,6 +11,9 @@ set(CMAKE_C_FLAGS "-g -O")
 
 set(CMAKE_C_FLAGS "-Wno-incompatible-pointer-types -Wno-pointer-to-int-cast")
 
+set(BOARD "nucleo_f411re")
+set(SHIELD "arduino_hearde")
+
 file(GLOB_RECURSE tmceval_SRC
 	 "*.h"
 	 "*.c"

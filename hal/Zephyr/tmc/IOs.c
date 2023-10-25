@@ -17,9 +17,9 @@ static void setPinState(IOPinTypeDef *pin, IO_States state);
 static IO_States getPinState(IOPinTypeDef *pin);
 static uint8_t isPinHigh(IOPinTypeDef *pin);
 
-#define GPIO_NODE DT_ALIAS(led0)
+#define DE1_ALIAS DT_ALIAS(de1)
 
-static const struct gpio_dt_spec gpio = GPIO_DT_SPEC_GET(GPIO_NODE, gpios);
+static const struct gpio_dt_spec gpio = GPIO_DT_SPEC_GET_OR(DE1_ALIAS, gpios, {0});
 
 IOsTypeDef IOs =
 {
@@ -43,8 +43,6 @@ static void init()
 	if (!gpio_is_ready_dt(&gpio)) {
         return 0;
     }
- 
-    ret = gpio_pin_configure_dt(&gpio, GPIO_OUTPUT_ACTIVE);
 }
 
 static void setPinConfiguration(IOPinTypeDef *pin)
@@ -57,8 +55,10 @@ static void setPinConfiguration(IOPinTypeDef *pin)
 	switch(pin->configuration.GPIO_Mode)
 	{
 	case GPIO_Mode_IN:
+	    gpio_pin_configure_dt(&gpio, GPIO_INPUT);
 		break;
 	case GPIO_Mode_OUT:
+	    gpio_pin_configure_dt(&gpio, GPIO_OUTPUT);
 		break;
 	case GPIO_Mode_AN:   	
 		break;
@@ -67,8 +67,10 @@ static void setPinConfiguration(IOPinTypeDef *pin)
 	switch(pin->configuration.GPIO_OType)
 	{
 	case GPIO_OType_PP:
+	    gpio_pin_configure_dt(&gpio, GPIO_OPEN_SOURCE);
 		break;
 	case GPIO_OType_OD:
+	    gpio_pin_configure_dt(&gpio, GPIO_OPEN_DRAIN);
 		break;
 	}
 
@@ -77,12 +79,12 @@ static void setPinConfiguration(IOPinTypeDef *pin)
 	case GPIO_PuPd_NOPULL:
 		break;
 	case GPIO_PuPd_UP:
+		gpio_pin_configure_dt(&gpio, GPIO_PULL_UP);
 		break;
 	case GPIO_PuPd_DOWN:
+		gpio_pin_configure_dt(&gpio, GPIO_PULL_DOWN);
 		break;
 	}
-
-
 }
 
 static void setPin2Output(IOPinTypeDef *pin)
@@ -115,14 +117,14 @@ static void setPinState(IOPinTypeDef *pin, IO_States state)
 		pin->configuration.GPIO_PuPd   = GPIO_PuPd_NOPULL;
 		pin->configuration.GPIO_OType  = GPIO_OType_PP;
 		setPinConfiguration(pin);
-		//--> *pin->resetBitRegister = pin->bitWeight;
+		gpio_pin_set_dt(&gpio, 0);
 		break;
 	case IOS_HIGH:
 		pin->configuration.GPIO_Mode   = GPIO_Mode_OUT;
 		pin->configuration.GPIO_PuPd   = GPIO_PuPd_NOPULL;
 		pin->configuration.GPIO_OType  = GPIO_OType_PP;
 		setPinConfiguration(pin);
-		//--> *pin->setBitRegister = pin->bitWeight;
+		gpio_pin_set_dt(&gpio, 1);
 		break;
 	case IOS_OPEN:
 		pin->configuration.GPIO_Mode  = GPIO_Mode_AN;
@@ -144,8 +146,7 @@ static IO_States getPinState(IOPinTypeDef *pin)
 
 	if(pin->configuration.GPIO_Mode == GPIO_Mode_AN)
 		pin->state = IOS_OPEN;
-		// TODO
-	else if(true)
+	else if(gpio_pin_get_dt(&gpio))
 		pin->state = IOS_HIGH;
 	else
 		pin->state = IOS_LOW;

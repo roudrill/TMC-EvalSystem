@@ -561,13 +561,13 @@ void rx(RXTXTypeDef *RXTX)
 		return;
 	}
 
-	ActualCommand.Opcode         = cmd[1];
-	ActualCommand.Type           = cmd[2];
-	ActualCommand.Motor          = cmd[3];
-	ActualCommand.Value.Byte[3]  = cmd[4];
-	ActualCommand.Value.Byte[2]  = cmd[5];
-	ActualCommand.Value.Byte[1]  = cmd[6];
-	ActualCommand.Value.Byte[0]  = cmd[7];
+	ActualCommand.Opcode         = cmd[0];
+	ActualCommand.Type           = cmd[1];
+	ActualCommand.Motor          = cmd[2];
+	ActualCommand.Value.Byte[3]  = cmd[3];
+	ActualCommand.Value.Byte[2]  = cmd[4];
+	ActualCommand.Value.Byte[1]  = cmd[5];
+	ActualCommand.Value.Byte[0]  = cmd[6];
 	ActualCommand.Error          = TMCL_RX_ERROR_NONE;
 }
 

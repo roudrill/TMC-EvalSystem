@@ -7,7 +7,8 @@ static void init();
 
 static IOPinTypeDef *_pins[] =
 {
-	&IOMap.DIO0
+	&IOMap.DIO0,
+	&IOMap.SPI1_CSN
 	/*
 	&IOMap.ID_CLK,
 	&IOMap.ID_CH0,
@@ -135,7 +136,7 @@ IOPinMapTypeDef IOMap =
 	*/
 	.DIO0 =  // IOPinTypeDef DIO0
 	{
-		.bitWeight           = 0,      // uint32_t pinBitWeight;
+		.bitWeight           = 0,      				// uint32_t pinBitWeight;
 		.bit                 = 0,                   // uint8_t pinBitWeight;
 		.resetConfiguration  =
 		{
@@ -143,7 +144,7 @@ IOPinMapTypeDef IOMap =
 			.GPIO_OType  = GPIO_OType_PP,            // GPIOSpeed_TypeDef GPIO_Speed;
 			.GPIO_PuPd   = GPIO_PuPd_NOPULL          // GPIOPuPd_TypeDef GPIO_PuPd;
 		}
-	}
+	},
 	/*
 
 	.DIO1 =  // IOPinTypeDef DIO1
@@ -452,24 +453,19 @@ IOPinMapTypeDef IOMap =
 			.GPIO_PuPd   = GPIO_PuPd_NOPULL          // GPIOPuPd_TypeDef GPIO_PuPd;
 		}
 	},
-
+	*/
 	.SPI1_CSN =  // IOPinTypeDef SPI1_CSN
 	{
-		.setBitRegister      = &(GPIOB_PSOR),        // __IO uint16_t *setBitRegister;
-		.resetBitRegister    = &(GPIOB_PCOR),        // __IO uint16_t *resetBitRegister;
-		.portBase            = PORTB_BASE_PTR,       // GPIO_TypeDef *port;
-		.GPIOBase            = PTB_BASE_PTR,
-		.bitWeight           = GPIO_PDD_PIN_10,      // uint32_t pinBitWeight;
+		.bitWeight           = 0,                    // uint32_t pinBitWeight;
 		.bit                 = 10,                   // uint8_t pinBitWeight;
 		.resetConfiguration  =
 		{
-			.GPIO_Mode   = GPIO_Mode_AN,             // GPIOMode_TypeDef GPIO_Mode;
+			.GPIO_Mode   = GPIO_Mode_OUT,            // GPIOMode_TypeDef GPIO_Mode;
 			.GPIO_OType  = GPIO_OType_PP,            // GPIOSpeed_TypeDef GPIO_Speed;
-			.GPIO_Speed  = GPIO_Speed_50MHz,         // GPIOOType_TypeDef GPIO_OType;
 			.GPIO_PuPd   = GPIO_PuPd_NOPULL          // GPIOPuPd_TypeDef GPIO_PuPd;
 		}
-	},
-
+	}
+	/*
 	.SPI1_SCK =  // IOPinTypeDef SPI1_SCK
 	{
 		.setBitRegister      = &(GPIOB_PSOR),        // __IO uint16_t *setBitRegister;

@@ -27,13 +27,13 @@ static const struct device *spi1 = DEVICE_DT_GET(DT_NODELABEL(spi1));
 //--> static const struct device *spi2 = DEVICE_DT_GET(DT_NODELABEL(spi2));
 
 static struct spi_config spi1_cfg = {
-	.operation = SPI_WORD_SET(8),
-    .frequency = 256000U
+	.operation = SPI_WORD_SET(8) | SPI_OP_MODE_MASTER | SPI_TRANSFER_MSB | SPI_MODE_CPOL | SPI_MODE_CPHA,
+    .frequency = 500000U
 };
 
 static struct spi_config spi2_cfg = {
-	.operation = SPI_WORD_SET(8),
-    .frequency = 256000U
+	.operation = SPI_WORD_SET(8) | SPI_OP_MODE_MASTER | SPI_TRANSFER_MSB | SPI_MODE_CPOL | SPI_MODE_CPHA,
+    .frequency = 500000U
 };
 
 SPITypeDef SPI=
@@ -42,6 +42,7 @@ SPITypeDef SPI=
 	{
 		.periphery       = 1,
 		.CSN             = &IODummy,
+		.readWriteInt 	 = spi_ch1_readWriteInt,
 		.readWrite       = spi_ch1_readWrite,
 		.readWriteArray  = spi_ch1_readWriteArray,
 		.reset           = reset_ch1
@@ -63,7 +64,7 @@ SPITypeDef SPI=
 void init()
 {
 	if (!device_is_ready(spi1)) {
-        //--> printk("SPI device %s is not ready\n", spi->name);
+        printk("SPI device %s is not ready\n", spi1->name);
         return;
     }
 
@@ -139,6 +140,9 @@ int32_t spi_ch2_readInt(uint8_t address)
 
 void spi_writeInt(SPIChannelTypeDef *SPIChannel, uint8_t address, int32_t value)
 {
+	uint8_t buffer[5];
+	buffer[0] = address|0x80;
+
 	SPIChannel->readWrite(address|0x80, false);
 	SPIChannel->readWrite(0xFF & (value>>24), false);
 	SPIChannel->readWrite(0xFF & (value>>16), false);
@@ -192,6 +196,73 @@ uint8_t spi_ch2_readWriteByte(SPIChannelTypeDef *SPIChannel, uint8_t data, uint8
 	return readWrite(SPIChannel, data, lastTransfer);
 }
 
+uint32_t spi_ch1_readWriteInt(unsigned char read, unsigned char address, uint32_t value)
+{
+	size_t writeDataSize;
+	char operationStr[6];
+
+	if (read == 1)
+	{
+		strcpy(operationStr, "Read");
+		writeDataSize = 1;
+	}
+	else
+	{
+		strcpy(operationStr, "Write");
+		writeDataSize = 5;
+	}
+
+    uint8_t readData[5];
+	uint8_t writeData[writeDataSize];
+
+	writeData[0] = address;
+
+	if (read == 1)
+	{
+		writeData[1] = 0;
+		writeData[2] = 0;
+		writeData[3] = 0;
+		writeData[4] = 0;
+	}
+
+	struct spi_buf writeBuf[] = {
+		{
+        	.buf = &writeData,
+			.len = writeDataSize
+		}
+	};
+
+	struct spi_buf readBuf[] = {
+		{
+        	.buf = &readData,
+			.len = 5
+		}
+	};
+    
+	struct spi_buf_set tx = {
+          .buffers = writeBuf,
+		  .count = 1
+    };
+
+	struct spi_buf_set rx = {
+          .buffers = readBuf,
+		  .count = 1
+    };
+
+    if (spi_transceive(spi1, &spi1_cfg, &tx, &rx) == 0) 
+    {
+        uint8_t *buf = (uint8_t *)(rx.buffers->buf);
+
+        printk("%s in SPI interface - Address: %x Value: %x %x %x %x %x\n", operationStr, address, buf[0], buf[1], buf[2], buf[3], buf[4]);
+    }
+    else
+    {
+        printk("Error to read iuint32_t n SPI interface!\n");
+    }
+
+	return *(uint8_t *)(rx.buffers->buf);
+}
+
 uint8_t readWrite(SPIChannelTypeDef *SPIChannel, uint8_t writeData, uint8_t lastTransfer)
 {	
 	uint8_t readData;
@@ -217,6 +288,21 @@ uint8_t readWrite(SPIChannelTypeDef *SPIChannel, uint8_t writeData, uint8_t last
 	struct spi_buf_set rx = {
           .buffers = readBuf
     };
+
+	uint32_t value = 0;
+
+    if (spi_transceive(spi1, &spi1_cfg, &tx, &rx) == 0) 
+    {
+        uint8_t *buf = (uint8_t *)(rx.buffers->buf);
+
+        uint8_t v1 = buf[0];
+
+        printk("Read in SPI interface - Address: %x Value: %x\n" , writeData, v1);
+    }
+    else
+    {
+        printk("Error to read iuint32_t n SPI interface!\n");
+    }
 
 	spi_transceive(spi1, &spi1_cfg, &tx, &rx);
 

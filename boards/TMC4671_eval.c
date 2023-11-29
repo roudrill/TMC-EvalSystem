@@ -57,6 +57,17 @@ static int32_t internalPositionToLinearPosition(int32_t position, int32_t scaler
 static int32_t linearVelocityToInternalVelocity(int32_t velocity, int32_t scaler);
 static int32_t internalVelocityToLinearVelocity(int32_t velocity, int32_t scaler);
 
+
+#if defined(Zephyr)
+uint32_t tmc4671_readwriteInt(uint8_t motor, uint8_t read, uint8_t address, uint32_t value)
+{
+	if (motor == DEFAULT_MOTOR)
+		return TMC4671_SPIChannel->readWriteInt(read, address, value);
+	else
+		return 0;
+}
+#endif
+
 // => SPI wrapper
 uint8_t tmc4671_readwriteByte(uint8_t motor, uint8_t data, uint8_t lastTransfer)
 {

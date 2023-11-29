@@ -13,6 +13,7 @@
 		#endif
 
 		IOPinTypeDef *CSN;
+		uint32_t (*readWriteInt) (unsigned char read, unsigned char address, uint32_t value);
 		unsigned char (*readWrite) (unsigned char data, unsigned char lastTransfer);
 		void (*readWriteArray) (uint8_t *data, size_t length);
 		void (*reset) (void);
@@ -45,5 +46,7 @@
 
 	int32_t spi_ch2_readInt(uint8_t address);
 	void spi_ch2_writeInt(uint8_t address, int32_t value);
+
+	uint32_t spi_ch1_readWriteInt(unsigned char read, unsigned char address, uint32_t value);
 
 #endif /* SPI_H */
